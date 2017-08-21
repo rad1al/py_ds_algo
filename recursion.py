@@ -152,10 +152,53 @@ def run_tr_fib(n):
 # print fib(10)
 # print run_tr_fib(10)
 
+""" Recursive implementation of prime factorization. """
 
+def prime_factorize(n):
+	return tr_prime_factorize(n, 2)
 
+def tr_prime_factorize(n, fac):
+	if n == 1:
+		return []
+	elif n % fac == 0:
+		return [fac] + tr_prime_factorize(n/fac, fac)
+	return tr_prime_factorize(n, fac+1)
 
+def test_prime_factorize():
+	assert prime_factorize(120) == [2, 2, 2, 3, 5]
 
+"""
+
+Step-by-step follow-through:
+
+prime_factorize(99)
+= tr_prime_factorize(99, 2)
+= tr_prime_factorize(99, 3)
+= [3] + tr_prime_factorize(33, 3)
+= [3] + [3] + tr_prime_factorize(11, 3)
+= [3] + [3] + tr_prime_factorize(11, 4)
+= [3] + [3] + tr_prime_factorize(11, 5)
+.
+.
+= [3] + [3] + tr_prime_factorize(11, 11)
+= [3] + [3] + [11] + tr_prime_factorize(1, 11)
+= [3] + [3] + [11] + []
+= [3,3,11]
+
+>>> prime_factorize(799964687**20) # 799964687 = 919 * 929 * 937
+[919, 919, 919, 919, 919, 919, 919, 919, 919, 919, 919, 919, 919, 
+ 919, 919, 919, 919, 919, 919, 919, 929, 929, 929, 929, 929, 929, 
+ 929, 929, 929, 929, 929, 929, 929, 929, 929, 929, 929, 929, 929, 
+ 929, 937, 937, 937, 937, 937, 937, 937, 937, 937, 937, 937, 937, 
+ 937, 937, 937, 937, 937, 937, 937, 937]
+
+>>> prime_factorize(799964687**100)
+RuntimeError: maximum recursion depth exceeded in cmp
+
+Note to self: Python does not have tail recursion optimization and 
+recursion has a limit of ~1000 calls.
+
+"""
 
 
 
