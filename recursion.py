@@ -200,6 +200,70 @@ recursion has a limit of ~1000 calls.
 
 """
 
+def palindrome(s):
+	"""Recursive implementation of a palindrome checker."""
+	if len(s) < 2:
+		return True
+	elif s[0] != s[-1]:
+		return False
+	else:
+		return True and palindrome(s[1:-1])
+
+"""
+
+palindrome('lol')
+= True and palindrome('o')
+= True and True
+
+
+palindrome('seas')
+= True and palindrome('ea')
+= True and False
+
+"""
+
+def count_change(n, coins):
+	if n == 0:
+		return 1
+	elif n < 0 or coins == []:
+		return 0
+	else:
+		return count_change(n, coins[:-1]) + count_change(n-coins[-1], coins)
+
+
+"""
+There are 3 ways to make 10 cents with pennies and nickels:
+
+1+1+1+1+1+1+1+1+1+1+1
+1+1+1+1+1+1+5
+5+5
+
+count_change(10, [1,5])
+= count_change(10, [1]) + count_change(5, [1,5])
+= [count_change(10, []) + count_change(9, [1])] + [count_change(5, [1]) + count_change(0, [1,5])]
+= [[0 + count_change(9, [])] + count_change(8, [1])] + [(basically 1) + (basically 1)]
+= [0 + 0 + (basically 1)] + [(basically 1) + 1 +]
+
+count_change(5, [1,5])
+= count_change(5, [1]) + count_change(0, [1,5])
+= (count_change(5, []) + count_change(4, [1])) + 1
+= [0 + 0 + 0 + 0 + 1] + 1
+= 2
+
+count_change(5, [1])
+= count_change(5, []) + count_change(4, [1])
+= 0 + count_change(4, []) + count_change(3, [1])
+= (basically 1)
+= 1
+
+"""
+
+def test_count_change():
+	assert count_change(10,[1,5]) == 3
+	assert count_change(5,[1,5]) == 2
+	assert count_change(5,[1]) == 1
+
+
 
 
 
